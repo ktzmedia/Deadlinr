@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-onbrand: var(--onbrand);
+  --color-sage: var(--sage);
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --bg: #f6f5f0; --card: #ffffff; --ink: #14150f; --muted: #5b5f4f; --line: #e3e1d6;
+  --brand: #3f5a1f; --onbrand: #ffffff; --sage: #dde5cc;
+  --exam: #b4472f; --test: #8f6a0c; --assignment: #2f6288; --event: #7a4f9e;
+}
+[data-theme="dark"] {
+  --bg: #11130e; --card: #1a1d15; --ink: #f1f1ea; --muted: #a5a998; --line: #2b2f23;
+  --brand: #b3cd83; --onbrand: #11130e; --sage: #232b18;
+  --exam: #f08a70; --test: #e0b650; --assignment: #7fb4dc; --event: #c4a4ec;
+}
+
+html { color-scheme: light; background: var(--bg); }
+[data-theme="dark"] { color-scheme: dark; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.chip { color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); }
+.bar { background: var(--c); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes sheet { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.rise { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+.sheet { animation: sheet .28s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) { .rise, .sheet { animation: none; } }
+
+/* Deadlines 0-2 days away: a calm, repeating ring + breathing number */
+@keyframes ring { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ring, var(--c)) 40%, transparent); } 70%, 100% { box-shadow: 0 0 0 14px transparent; } }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+.soon { animation: ring 2.4s ease-out infinite; border-color: var(--ring, var(--c)); }
+.breathe { animation: breathe 3s ease-in-out infinite; transform-origin: left bottom; }
+.pulse-dot { display: inline-block; height: .5rem; width: .5rem; border-radius: 9999px; background: var(--c, currentColor); animation: blink 1.6s ease-in-out infinite; }
+.tag { color: var(--brand); background: color-mix(in srgb, var(--brand) 14%, transparent); }
+
+/* Shared countdown reveal */
+@keyframes reveal { from { opacity: 0; transform: translateY(24px) scale(.94); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes ripple { 0% { transform: scale(.4); opacity: .5; } 100% { transform: scale(1.7); opacity: 0; } }
+.reveal { animation: reveal .8s cubic-bezier(.2,.8,.2,1) both; }
+.ripple { border: 1.5px solid var(--brand); opacity: 0; animation: ripple 3.2s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .soon, .breathe, .pulse-dot, .reveal, .ripple { animation: none; } .ripple { opacity: .25; } }
